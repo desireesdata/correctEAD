@@ -1,3 +1,10 @@
+```
+pip install git+https://github.com/desireesdata/correctEAD.git@package
+```
+
+Crée un environnement virtuel avant.
+
+
 # correctEAD
 
 Outil Python basique pour inspecter et transformer des fichiers XML EAD (Encoded Archival Description) dans le cadre de la normalisation des instruments de recherche. Il fournit des fonctions de lecture/écriture (XPath, attributs, insertion/suppression) pour réaliser des ajustements directement en Python, sans recourir à XSLT. 
