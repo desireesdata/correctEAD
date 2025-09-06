@@ -1,82 +1,60 @@
-from correctead import *
+import os
+from correctead import load, CorrectEADError
 
-# Charger un fichier XML
-# mon_document = load("ead/un_ir.xml")  # sans modifier l'encodage (possible, mais déconseillé)
-mon_document = load("ead/un_ir.xml", encoding_override="utf-8") # Conseillé !
-# Permet de se prémunir des problèmes d'encodage de Gaïa
-mon_document.repair_mojibake("latin1_to_utf8")  
+# 1. Define file paths
+# The input file is in the tests/fixtures directory
+INPUT_FILE = os.path.join('tests', 'fixtures', 'un_ir.xml')
+OUTPUT_FILE = 'un_ir_normalized.xml'
 
-# Lire des valeurs avec XPath
-print(mon_document.get("//archdesc/@level", as_text=True))
-print(mon_document.get_doctype())
+print(f"Loading EAD file: {INPUT_FILE}")
 
-# Attributs
-print("Voici les attributs de mon noeud archdesc:", 
-      mon_document.get_attributes("//archdesc"))
-print("Voici le contenu de @level de archdesc", 
-      mon_document.get_attribut("archdesc", "level"))
+# 2. Load the document
+# We use a try...except block to handle potential loading errors.
+# We also override the encoding to be sure, as recommended in the docs.
+try:
+    doc = load(INPUT_FILE, encoding_override='utf-8')
+except FileNotFoundError:
+    print(f"Error: Input file not found at {INPUT_FILE}")
+    exit(1)
+except Exception as e:
+    print(f"An error occurred while loading the file: {e}")
+    exit(1)
 
-# Modifications sur un attribut
-if mon_document.get_attribut("archdesc", "level") == "fonds":
-    mon_document.set_attribut("archdesc", "level", "recordgrp")
+print("Document loaded successfully. Starting normalization...")
 
-mon_document.set_attribut("origination","authfilenumber", "42")
+# Repair potential encoding issues (e.g., latin-1 in a file declared as utf-8)
+doc.repair_mojibake()
+print("- Repaired mojibake issues.")
 
-# Vérifier la présence de la balise <testons>
-# Et ajout noeud
-if not mon_document.xpath("//testons"):
-    print("Pas de balise testons existante")
-    mon_document.add(
-        "testons",
-        "Victor Hugo",
-        attrs={"authfilenumber": "BnF10293"},
-        parent_xpath="//archdesc/did"  # parent par défaut ; à adapter si besoin
+# 3. Perform some normalization tasks
+
+# Change the 'level' attribute of <archdesc> to 'recordgrp'
+level_before = doc.get_attribut("//archdesc", "level")
+doc.set_attribut("//archdesc", "level", "recordgrp")
+level_after = doc.get_attribut("//archdesc", "level")
+print(f"- Changed <archdesc> level from '{level_before}' to '{level_after}'.")
+
+# Add a <processinginfo> element to describe the normalization
+try:
+    doc.add(
+        tag="processinginfo",
+        text="Normalized with correctEAD package.",
+        attrs={"encodinganalog": "42"},
+        parent_xpath="//archdesc/did"
     )
+    print("- Added <processinginfo> element.")
+except CorrectEADError as e:
+    print(f"Could not add <processinginfo> element: {e}")
 
-# Poser un DOCTYPE EAD 2002 (par exemple)
-mon_document.set_doctype(
-    '<!DOCTYPE ead PUBLIC '
-    '"//ISBN 1-931666-00-8//DTD ead.dtd (Encoded Archival Description (EAD) Version 2002)//EN" '
-    '"/gaia/normes/ead.dtd">'
-)
+# Capitalize all <subject> text content
+subjects = doc.nodes("//controlaccess/subject")
+for s in subjects:
+    original_text = s.text()
+    s.set_text(original_text.strip().capitalize())
+print(f"- Capitalized {len(subjects)} <subject> elements.")
 
-# Modification noeud textuel
-mon_document.set("//publicationstmt/date", "Juillet 2026")
+# 4. Set output encoding and save
+doc.set_output_encoding('utf-8')
+doc.save(OUTPUT_FILE)
 
-sujets = mon_document.nodes("subject")  # -> [EADNode, EADNode, ...]
-if sujets:
-    print("sujets :", sujets[0].text())  # méthode .text()
-
-# Parcourir, lire/eécrirte texte et attributs
-for s in mon_document.nodes("//controlaccess/subject"):
-    print("avant :", s.text(), s.attrs())
-    s.set_text(s.text().strip().capitalize())
-    s.set_attr("encodinganalog", "610")
-
-# supprimer un sujet vide :
-for s in mon_document.nodes("subject"):
-    if not s.text().strip():
-        s.delete()
-
-# récupérer tous les texte d'un coup:
-print("Récup tous les textes d'un coup : ", mon_document.node_texts("//origination | //subject"))
-
-# Supprimer les <acqinfo> dont le texte est exactement "Carton"
-# for noeud in mon_document.get_nodes("acqinfo"):
-#     if (noeud.text or "").strip() == "Carton":
-#         mon_document.delete_node(noeud)
-
-# Supprimer un noeud physdesc + ses enfant, s'ily a le mot carton (insensible à la casse)
-for node in mon_document.nodes("//physdesc"):
-    if node.text(deep=True).contains("carton"):
-        node.delete()
-
-
-# remplace TOUS les <subject> par <genreform>
-for e in mon_document.get_nodes("//controlaccess/subject"):
-    e.tag = "genreform"
-
-# Déclaration XML
-# mon_document.set_prelude('<?xml version="1.0" encoding="utf-8"?>')
-mon_document.set_output_encoding("utf-8")
-mon_document.save("ead/un_ir_transforme.xml")
+print(f"\nNormalization complete. Saved output to: {OUTPUT_FILE}")

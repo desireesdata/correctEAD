@@ -4,7 +4,7 @@ Outil Python basique pour inspecter et transformer des fichiers XML EAD (Encoded
 
 Ce choix peut être pertinent lorsque l’on souhaite éviter les écarts de comportement liés aux différences de versions de XSLT/processeurs; ou que l'on veut mettre en place une pipeline de traitement déclarative, sans appels imbriqués. L'utilisaiton via Python permet également de bénéficier d'autres fonctionnalités servies par l'écosystème Python (fuzzy search, appels d'API institutionnelles, etc.), sans recourir à des technologies diverses qui peuvent compliquer une chaîne de traitement pouvant inclure l'indexation de l'instrument de recherche.
 
-> Cependant, `correcEAD` ne permet pas d'effectuer des transformations complexes... à l'instar de XSLT. C'est un **outil de correction**.
+Cependant, `correcEAD` ne permet pas d'effectuer des transformations complexes... à l'instar de XSLT. C'est un **outil de correction**.
 
 `correctead` fournit une API simple pour :
 
