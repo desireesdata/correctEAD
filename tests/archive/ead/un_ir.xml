@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE ead PUBLIC "+//ISBN 1-931666-00-8//DTD ead.dtd (Encoded Archival Description (EAD) Version 2002)//EN" "ead.dtd">
+<ead>
+    <eadheader langencoding="iso639-2b" countryencoding="iso3166-1" dateencoding="iso8601" repositoryencoding="iso15511">
+        <eadid countrycode="FR" mainagencycode="FR-XXX">FRXXX001</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>Fonds de la Société Anonyme des Boulons (SAB)</titleproper>
+                <author>Service des Archives</author>
+            </titlestmt>
+            <publicationstmt>
+                <publisher>Archives Fictives</publisher>
+                <date>2023</date>
+            </publicationstmt>
+        </filedesc>
+    </eadheader>
+    <archdesc level="fonds" type="inventory" relatedencoding="ISAD(G)v2">
+        <did>
+            <head>Description</head>
+            <unittitle>Fonds de la Société Anonyme des Boulons (SAB)</unittitle>
+            <unitid>SAB-001</unitid>
+            <unitdate>1950-2005</unitdate>
+            <physdesc>
+                <extent>25 mètres linéaires</extent>
+            </physdesc>
+            <origination label="Producteur">
+                <corpname>Société Anonyme des Boulons</corpname>
+            </origination>
+        </did>
+        <acqinfo>
+            <head>Modalités d'entrée</head>
+            <p>Carton</p>
+        </acqinfo>
+        <acqinfo>
+            <head>Informations complémentaires</head>
+            <p>Donation de la famille Martin en 2021.</p>
+        </acqinfo>
+        <controlaccess>
+            <head>Indexation</head>
+            <subject>  industrie métallurgique  </subject>
+            <subject>comptabilité</subject>
+            <subject>Famille Martin</subject>
+            <subject>    </subject>
+            <geogname>Paris</geogname>
+        </controlaccess>
+        <dsc type="combined">
+            <c01 level="series">
+                <did>
+                    <unittitle>Dossiers de production</unittitle>
+                     <physdesc>
+                        <container>
+                            Format du conditionnement : carton
+                        </container>
+                    </physdesc>
+                </did>
+            </c01>
+        </dsc>
+    </archdesc>
+</ead>
