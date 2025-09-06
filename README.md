@@ -7,9 +7,9 @@ Crée un environnement virtuel avant.
 
 # correctEAD
 
-Outil Python basique pour inspecter et transformer des fichiers XML EAD (Encoded Archival Description) dans le cadre de la normalisation des instruments de recherche. Il fournit des fonctions de lecture/écriture (XPath, attributs, insertion/suppression) pour réaliser des ajustements directement en Python, sans recourir à XSLT. 
+Outil Python basique pour inspecter et transformer des fichiers XML EAD (Encoded Archival Description) dans le cadre de la normalisation des instruments de recherche, basé sur `lxml`. Il fournit des fonctions de lecture/écriture (XPath, attributs, insertion/suppression) pour réaliser des ajustements directement en Python, sans recourir à XSLT. Quant à l'utilisation directe de `lxml`, `correctead` peut sembler superflu, mais permet d'effectuer des actions explicites propres à la correction archivistique.
 
-Ce choix peut être pertinent lorsque l’on souhaite éviter les écarts de comportement liés aux différences de versions de XSLT/processeurs; ou que l'on veut mettre en place une pipeline de traitement déclarative, sans appels imbriqués. L'utilisaiton via Python permet également de bénéficier d'autres fonctionnalités servies par l'écosystème Python (fuzzy search, appels d'API institutionnelles, etc.), sans recourir à des technologies diverses qui peuvent compliquer une chaîne de traitement pouvant inclure l'indexation de l'instrument de recherche.
+> Ce choix peut être également pertinent lorsque l’on souhaite éviter les écarts de comportement liés aux différences de versions de XSLT/processeurs; ou que l'on veut mettre en place une pipeline de traitement déclarative, sans appels imbriqués. L'utilisaiton via Python permet également de bénéficier d'autres fonctionnalités servies par l'écosystème Python (fuzzy search, appels d'API institutionnelles, etc.), sans recourir à des technologies diverses qui peuvent compliquer une chaîne de traitement pouvant inclure l'indexation de l'instrument de recherche.
 
 Cependant, `correcEAD` ne permet pas d'effectuer des transformations complexes... à l'instar de XSLT. C'est un **outil de correction**.
 
