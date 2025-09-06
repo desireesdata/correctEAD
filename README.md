@@ -1,10 +1,3 @@
-```
-pip install git+https://github.com/desireesdata/correctEAD.git@package
-```
-
-Crée un environnement virtuel avant.
-
-
 # correctEAD
 
 Outil Python basique pour inspecter et transformer des fichiers XML EAD (Encoded Archival Description) dans le cadre de la normalisation des instruments de recherche, basé sur `lxml`. Il fournit des fonctions de lecture/écriture (XPath, attributs, insertion/suppression) pour réaliser des ajustements directement en Python, sans recourir à XSLT. Quant à l'utilisation directe de `lxml`, `correctead` peut sembler superflu, mais permet d'effectuer des actions explicites propres à la correction archivistique.
@@ -23,6 +16,50 @@ Cependant, `correcEAD` ne permet pas d'effectuer des transformations complexes..
 * préserver ou définir le prologue (déclaration XML, DOCTYPE) à l’enregistrement.
 
 > Remarque : l’outil n’effectue pas de validation de schéma (DTD/Relax NG/Schéma XML) !
+
+## Exemple simple 
+
+```python
+from correctead import load, CorrectEADError
+
+# Gestion i/o fichiers
+INPUT_FILE = 'un_ir.xml'
+OUTPUT_FILE = 'un_ir_modif.xml'
+doc = load(INPUT_FILE, encoding_override='utf-8')
+doc.repair_mojibake()
+
+# Manipulations simples de balises
+print(doc.get("//archdesc/@level", as_text=True))
+print(doc.get_doctype())
+doc.set_doctype("<!DOCTYPE morbier>")
+
+# Manipulation sur plusieurs balises
+for node in doc.nodes("persname[not(@authfilenumber)]"):
+    a = node.text()
+    node.set_attr("authfilenumber", "42")
+    print("Noms: ", a)
+
+# Modification de balises
+doc.set("//publisher", "Service d'archives fantaisiste")
+
+# Ajout de balises
+if doc.xpath("//did/origination/custodhist"):
+    print("l'élément existe déjà !")
+else : 
+    try:
+        doc.add(
+            tag="custodhist",
+            text="Historique de conservation : blabla",
+            parent_xpath="//did/origination"
+        )
+        print("Element ajouté avec succès !")
+    except CorrectEADError as e:
+        print(":/")
+
+doc.set_output_encoding('utf-8')
+doc.save(OUTPUT_FILE)
+
+```
 
 ---
 
@@ -347,3 +384,9 @@ doc.save("chemin/vers/votre/fichier_preserve.xml")
 ```
 
 ---
+```
+pip install git+https://github.com/desireesdata/correctEAD.git@package
+```
+
+Créer un environnement virtuel avant.
+
