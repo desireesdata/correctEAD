@@ -28,18 +28,17 @@ Cependant, `correcEAD` ne permet pas d'effectuer des transformations complexes..
 
 ## Installation
 
-Dépendance requise :
-
-* [lxml](https://lxml.de/) (libxml2)
+Le package peut être installé directement depuis GitHub via `pip`. Il est recommandé de le faire dans un environnement virtuel.
 
 ```bash
-pip install lxml
+pip install git+https://github.com/desireesdata/correctEAD.git@package
 ```
 
-Le module est un fichier Python unique. Placez `correctead.py` dans votre projet (ou installez-le depuis votre dépôt interne, le cas échéant), puis importez-le :
+La dépendance à `lxml` sera automatiquement installée.
 
+L'importation se fait ensuite de manière ciblée :
 ```python
-from correctead import *
+from correctead import load, EADNode
 ```
 
 Compatibilité Python : 3.9+ recommandé.
@@ -60,10 +59,10 @@ Compatibilité Python : 3.9+ recommandé.
 ### Chargement et encodage
 
 ```python
-from correctead import *
+from correctead import load
 
 # 1) Chargement en forçant l’encodage (recommandé pour contourner des déclarations erronées)
-doc = load("ead/un_ir.xml", encoding_override="utf-8")
+doc = load("chemin/vers/votre/fichier.xml", encoding_override="utf-8")
 
 # 2) Correction heuristique de mojibake (Latin-1 mal décodé en UTF-8)
 n = doc.repair_mojibake("latin1_to_utf8")
@@ -72,15 +71,15 @@ print("Textes corrigés :", n)
 print("Encodage d'entrée détecté :", doc.get_input_encoding())  # ex. 'utf-8'
 doc.set_output_encoding("utf-8")  # ou 'preserve' pour réutiliser l'encodage d'entrée
 
-doc.save("ead/un_ir_sortie.xml")
+doc.save("chemin/vers/votre/fichier_sortie.xml")
 ```
 
 #### Préservation de l’encodage d’origine
 
 ```python
-doc = load("ead/un_ir.xml")   # utilise l’encodage déclaré par le fichier
+doc = load("chemin/vers/votre/fichier.xml")   # utilise l’encodage déclaré par le fichier
 doc.set_output_encoding("preserve")
-doc.save("ead/un_ir_preserve.xml")
+doc.save("chemin/vers/votre/fichier_preserve.xml")
 ```
 
 ### DOCTYPE et déclaration XML
@@ -229,7 +228,7 @@ titles = doc.get("//ead3:unittitle/text()", as_text=True, namespaces=ns)
 ```python
 # Choix de l’encodage de sortie
 doc.set_output_encoding("utf-8")   # ou "preserve"
-doc.save("ead/un_ir_transforme.xml")
+doc.save("chemin/vers/votre/fichier_transforme.xml")
 ```
 
 Comportement :
@@ -303,9 +302,9 @@ delete_attributes(tag_or_xpath, namespaces=None, keep: Iterable[str] | None = No
 ### Exemple 1 — Normalisation simple
 
 ```python
-from correctead import *
+from correctead import load
 
-doc = load("ead/un_ir.xml", encoding_override="utf-8")
+doc = load("chemin/vers/votre/fichier.xml", encoding_override="utf-8")
 doc.repair_mojibake("latin1_to_utf8")
 
 if doc.get_attribut("archdesc", "level") == "fonds":
@@ -333,18 +332,18 @@ for e in doc.get_nodes("//controlaccess/subject"):
     e.tag = "genreform"
 
 doc.set_output_encoding("utf-8")
-doc.save("ead/un_ir_transforme.xml")
+doc.save("chemin/vers/votre/fichier_transforme.xml")
 ```
 
 ### Exemple 2 — Préservation de l’encodage d’entrée
 
 ```python
-from correctead import *
+from correctead import load
 
-doc = load("ead/un_ir_iso.xml")      # suppose ISO-8859-1 correctement déclaré
+doc = load("chemin/vers/votre/fichier_iso.xml")      # suppose ISO-8859-1 correctement déclaré
 print("in:", doc.get_input_encoding())
 doc.set_output_encoding("preserve")  # conserver ISO-8859-1 à la sortie
-doc.save("ead/un_ir_preserve.xml")
+doc.save("chemin/vers/votre/fichier_preserve.xml")
 ```
 
 ---
