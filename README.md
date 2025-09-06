@@ -1,6 +1,9 @@
-# correctead
+# correctEAD
 
-Outil Python pour inspecter et transformer des fichiers XML EAD (Encoded Archival Description) dans le cadre de la normalisation des instruments de recherche.
+Outil Python pour inspecter et transformer des fichiers XML EAD (Encoded Archival Description) dans le cadre de la normalisation des instruments de recherche. Il fournit des fonctions de lecture/écriture (XPath, attributs, insertion/suppression) pour réaliser des ajustements directement en Python, sans recourir à XSLT. 
+
+Ce choix peut être pertinent lorsque l’on souhaite éviter les écarts de comportement liés aux différences de versions ou que l'on veut mettre en place une pipeline de traitement déclarative, sans appels imbriqués. L'utilisaiton via Python permet également de bénéficier d'autres fonctionnalités servies par l'écosystème Python (fuzzy search, appels d'API institutionnelles, etc.), sans recourir à des technologies diverses qui peuvent compliquer la chaîne de traitement.
+
 `correctead` fournit une API simple pour :
 
 * charger un XML en contrôlant précisément l’encodage ;
@@ -10,7 +13,7 @@ Outil Python pour inspecter et transformer des fichiers XML EAD (Encoded Archiva
 * insérer/supprimer des nœuds ;
 * préserver ou définir le prologue (déclaration XML, DOCTYPE) à l’enregistrement.
 
-> Remarque : l’outil n’effectue pas de validation de schéma (DTD/Relax NG/Schéma XML).
+> Remarque : l’outil n’effectue pas de validation de schéma (DTD/Relax NG/Schéma XML) !
 
 ---
 
