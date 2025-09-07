@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ead>
+    <archdesc level="fonds" type="inventory">
+        <did>
+            <unittitle>Test de distribution</unittitle>
+        </did>
+        <dsc>
+            <c level="recordgrp">
+                <did>
+                    <unittitle>Registre paroissiaux : Baptêmes, mariages, sépultures</unittitle>
+                    <unitdate>1600 - 1789</unitdate>
+                </did>
+                <c level="file">
+                    <did>
+                        <unittitle>1600-1650</unittitle>
+                        <unitdate>1600-1650</unitdate>
+                    </did>
+                </c>
+                <c level="file">
+                    <did>
+                        <unittitle>1650-1700</unittitle>
+                        <unitdate>1650-1700</unitdate>
+                    </did>
+                </c>
+                <c level="file">
+                    <did>
+                        <unittitle>1700-1789</unittitle>
+                        <unitdate>1700-1789</unitdate>
+                    </did>
+                </c>
+            </c>
+            <c level="recordgrp">
+                <did>
+                    <unittitle>Registres paroissiaux : Baptêmes, mariages, sépultures</unittitle>
+                    <unitdate>1789 - 200</unitdate>
+                </did>
+                <c level="file">
+                    <did>
+                        <unittitle>1600-1650</unittitle>
+                        <unitdate>1600-1650</unitdate>
+                    </did>
+                </c>
+                <c level="file">
+                    <did>
+                        <unittitle>1650-1700</unittitle>
+                        <unitdate>1650-1700</unitdate>
+                    </did>
+                </c>
+                <c level="file">
+                    <did>
+                        <unittitle>1700-1789</unittitle>
+                        <unitdate>1700-1789</unitdate>
+                    </did>
+                </c>
+            </c>
+        </dsc>
+    </archdesc>
+</ead>

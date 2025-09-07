@@ -201,6 +201,39 @@ doc.set("//publicationstmt/date", "Juillet 2026")
 
 > Création automatique : uniquement pour des chemins simples de type `//a/b/c` (pas de prédicats, namespaces complexes, etc.).
 
+### Distribution d'informations (avancé)
+
+Une fonctionnalité permet d'harmoniser les données en enrichissant un noeud parent avec une information textuelle commune à tous ses enfants. La méthode `distribute_repetition()` est conçue pour ce cas d'usage, typique de la description archivistique (ISAD-G).
+
+Elle permet également de choisir le traitement à appliquer à l'information devenue potentiellement redondante chez les enfants.
+
+```python
+# Scénario 1: Enrichir le parent, préserver les enfants (comportement par défaut)
+# Le <unittitle> du parent devient "Titre Parent : Titre Enfant Commun"
+doc.distribute_repetition(
+    parent_selector="//c[@level='recordgrp']",
+    child_tag="c",
+    target_selector="did/unittitle"
+)
+
+# Scénario 2: Enrichir le parent et supprimer le titre des enfants
+doc.distribute_repetition(
+    parent_selector="//c[@level='recordgrp']",
+    child_tag="c",
+    target_selector="did/unittitle",
+    child_behavior="delete_node" # <-- On supprime le noeud <unittitle> enfant
+)
+
+# Scénario 3: Enrichir le parent et remplacer le titre des enfants par leur date
+doc.distribute_repetition(
+    parent_selector="//c[@level='recordgrp']",
+    child_tag="c",
+    target_selector="did/unittitle",
+    child_behavior="replace_by_sibling", # <-- On remplace...
+    sibling_selector="../unitdate"       # <-- ...par le contenu de ce noeud frère.
+)
+```
+
 ### API orientée objet : `EADNode`
 
 Pour plus de confort, `nodes()` renvoie des wrappers `EADNode` avec des méthodes utilitaires.
@@ -386,6 +419,8 @@ doc.save("chemin/vers/votre/fichier_preserve.xml")
 ---
 ```
 pip install git+https://github.com/desireesdata/correctEAD.git@package
+PYTHONPATH=src python3 exemple.py
+ou python sans 3 !
 ```
 
 Créer un environnement virtuel avant.

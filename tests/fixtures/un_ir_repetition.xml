@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ead PUBLIC "+//ISBN 1-931666-00-8//DTD ead.dtd (Encoded Archival Description (EAD) Version 2002)//EN" "ead.dtd">
+<ead>
+    <eadheader langencoding="iso639-2b" countryencoding="iso3166-1" dateencoding="iso8601" repositoryencoding="iso15511">
+        <eadid>REPETITION-TEST</eadid>
+        <filedesc><titlestmt><titleproper>Test Case for Repetition</titleproper></titlestmt><publicationstmt><date>2023</date></publicationstmt></filedesc>
+    </eadheader>
+    <archdesc level="fonds" type="inventory">
+        <did>
+            <unittitle>Fonds Test</unittitle>
+        </did>
+        <dsc type="combined">
+            <c01 level="series">
+                <did>
+                    <unittitle>Titre de la série</unittitle>
+                </did>
+                <c02 level="item">
+                    <did>
+                        <unittitle>Titre Répétitif</unittitle>
+                        <unitid>Item 1</unitid>
+                    </did>
+                </c02>
+                <c02 level="item">
+                    <did>
+                        <unittitle>Titre Répétitif</unittitle>
+                        <unitid>Item 2</unitid>
+                    </did>
+                </c02>
+                <c02 level="item">
+                    <did>
+                        <unittitle>Titre Différent</unittitle>
+                        <unitid>Item 3</unitid>
+                    </did>
+                </c02>
+            </c01>
+            <c level="recordgrp">
+                <did>
+                    <unittitle>Registre paroissiaux</unittitle>
+                    <unitdate>1600 - 1789</unitdate>
+                </did>
+                <controlaccess>
+                    <!--  -->
+                </controlaccess>
+                <c level="file">
+                    <did>
+                        <unittitle>Baptêmes, mariages, sépultures</unittitle>
+                        <unitdate>1600-1650</unitdate>
+                    </did>
+                </c>
+                <c level="file">
+                    <did>
+                        <unittitle>Baptêmes, mariages, sépultures</unittitle>
+                        <unitdate>1650-1700</unitdate>
+                    </did>
+                </c>
+                <c level="file">
+                    <did>
+                        <unittitle>Baptêmes, mariages, sépultures</unittitle>
+                        <unitdate>1700-1789</unitdate>
+                    </did>
+                </c>
+            </c>
+            <c01 level="series">
+                <did>
+                    <unittitle>Une autre série</unittitle>
+                </did>
+                <c02 level="item">
+                    <did>
+                        <unittitle>Encore un titre répétitif</unittitle>
+                        <unitid>Item 4</unitid>
+                    </did>
+                </c02>
+                <c02 level="item">
+                    <did>
+                        <unittitle>Encore un titre répétitif</unittitle>
+                        <unitid>Item 5</unitid>
+                    </did>
+                </c02>
+            </c01>
+        </dsc>
+    </archdesc>
+</ead>

@@ -325,3 +325,86 @@ class CorrectEADDocument:
                 n.attrib.clear()
             affected += 1
         return affected
+
+    def distribute_repetition(
+        self,
+        parent_selector: str,
+        child_tag: str,
+        target_selector: str,
+        separator: str = " : ",
+        child_behavior: str = "preserve",
+        sibling_selector: str | None = None
+    ) -> int:
+        """
+        Enrichit un parent avec l'info commune de ses enfants et applique un traitement aux enfants.
+
+        :param parent_selector: XPath pour sélectionner les parents potentiels.
+        :param child_tag: Tag des enfants à inspecter.
+        :param target_selector: Chemin relatif pour trouver le noeud cible.
+        :param separator: Chaîne pour joindre les textes.
+        :param child_behavior: Comportement pour le noeud cible de l'enfant:
+                               "preserve" (défaut), "delete_node", "delete_text", 
+                               ou "replace_by_sibling".
+        :param sibling_selector: Si "replace_by_sibling", XPath relatif au noeud cible 
+                                 pour trouver la source de remplacement (ex: '../unitdate').
+        :return: Le nombre de parents modifiés.
+        """
+        potential_parents = self.nodes(parent_selector)
+        modifications_count = 0
+
+        for parent_node in potential_parents:
+            child_nodes = parent_node.children(child_tag)
+            
+            if len(child_nodes) < 2:
+                continue
+
+            child_target_texts = []
+            all_children_have_target = True
+            for child_node in child_nodes:
+                target_nodes = child_node.xpath(target_selector)
+                target_node = target_nodes[0] if target_nodes else None
+                if target_node and target_node.text().strip():
+                    child_target_texts.append(target_node.text().strip())
+                else:
+                    all_children_have_target = False
+                    break
+            
+            if not all_children_have_target or not child_target_texts:
+                continue
+
+            unique_texts = set(child_target_texts)
+            
+            if len(unique_texts) == 1:
+                common_text = unique_texts.pop()
+                
+                parent_target_nodes = parent_node.xpath(target_selector)
+                parent_target_node = parent_target_nodes[0] if parent_target_nodes else None
+
+                if parent_target_node:
+                    original_parent_text = parent_target_node.text().strip()
+                    
+                    if common_text not in original_parent_text:
+                        new_text = original_parent_text + separator + common_text
+                        parent_target_node.set_text(new_text)
+                        modifications_count += 1
+
+                    # --- NEW LOGIC FOR CHILD BEHAVIOR ---
+                    if child_behavior != "preserve":
+                        for child_node in child_nodes:
+                            target_node = child_node.xpath(target_selector)[0] if child_node.xpath(target_selector) else None
+                            if not target_node: continue
+
+                            if child_behavior == "delete_node":
+                                target_node.delete()
+                            elif child_behavior == "delete_text":
+                                target_node.set_text("")
+                            elif child_behavior == "replace_by_sibling":
+                                if not sibling_selector:
+                                    raise ValueError("sibling_selector est requis pour 'replace_by_sibling'")
+                                
+                                source_nodes = target_node.xpath(sibling_selector)
+                                if source_nodes:
+                                    source_text = source_nodes[0].text().strip()
+                                    target_node.set_text(source_text)
+        
+        return modifications_count

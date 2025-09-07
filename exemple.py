@@ -3,6 +3,7 @@ from correctead import load, CorrectEADError
 
 # 1. Define file paths
 # The input file is in the tests/fixtures directory
+# INPUT_FILE = os.path.join('tests', 'fixtures', 'un_ir.xml')
 INPUT_FILE = os.path.join('tests', 'fixtures', 'un_ir.xml')
 OUTPUT_FILE = 'un_ir_normalized.xml'
 
