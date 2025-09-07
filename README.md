@@ -14,6 +14,7 @@ Cependant, `correcEAD` ne permet pas d'effectuer des transformations complexes..
 * manipuler les attributs ;
 * insérer/supprimer des nœuds ;
 * préserver ou définir le prologue (déclaration XML, DOCTYPE) à l’enregistrement.
+* distribuer une information répétée et partagée par les mêmes enfants en l'intégrant à l'élément parent (principe ISAD-G)
 
 > Remarque : l’outil n’effectue pas de validation de schéma (DTD/Relax NG/Schéma XML) !
 

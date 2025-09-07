@@ -333,10 +333,12 @@ class CorrectEADDocument:
         target_selector: str,
         separator: str = " : ",
         child_behavior: str = "preserve",
-        sibling_selector: str | None = None
+        sibling_selector: str | None = None,
+        add_comments: bool = False
     ) -> int:
         """
-        Enrichit un parent avec l'info commune de ses enfants et applique un traitement aux enfants.
+        Enrichit un parent avec l'info commune de ses enfants et applique un traitement 
+        aux enfants, avec la possibilité d'ajouter des commentaires de traçabilité.
 
         :param parent_selector: XPath pour sélectionner les parents potentiels.
         :param child_tag: Tag des enfants à inspecter.
@@ -347,6 +349,7 @@ class CorrectEADDocument:
                                ou "replace_by_sibling".
         :param sibling_selector: Si "replace_by_sibling", XPath relatif au noeud cible 
                                  pour trouver la source de remplacement (ex: '../unitdate').
+        :param add_comments: Si True, ajoute des commentaires XML pour documenter les changements.
         :return: Le nombre de parents modifiés.
         """
         potential_parents = self.nodes(parent_selector)
@@ -388,11 +391,21 @@ class CorrectEADDocument:
                         parent_target_node.set_text(new_text)
                         modifications_count += 1
 
-                    # --- NEW LOGIC FOR CHILD BEHAVIOR ---
+                        if add_comments:
+                            parent_xpath = self._tree.getpath(parent_target_node.element)
+                            comment_str = f" modification: distribution de '{common_text}' vers {parent_xpath} "
+                            parent_target_node.element.addnext(etree.Comment(comment_str))
+
                     if child_behavior != "preserve":
                         for child_node in child_nodes:
-                            target_node = child_node.xpath(target_selector)[0] if child_node.xpath(target_selector) else None
+                            target_nodes = child_node.xpath(target_selector)
+                            target_node = target_nodes[0] if target_nodes else None
                             if not target_node: continue
+
+                            if add_comments:
+                                child_xpath = self._tree.getpath(target_node.element)
+                                comment_str = f" modification: source de distribution depuis {child_xpath}, comportement '{child_behavior}' appliqué "
+                                target_node.element.addprevious(etree.Comment(comment_str))
 
                             if child_behavior == "delete_node":
                                 target_node.delete()

@@ -8,48 +8,43 @@
             <c level="recordgrp">
                 <did>
                     <unittitle>Registre paroissiaux : Baptêmes, mariages, sépultures</unittitle>
-                    <unitdate>1600 - 1789</unitdate>
+                    <!-- modification: distribution de 'Baptêmes, mariages, sépultures' vers /ead/archdesc/dsc/c[1]/did/unittitle -->
+                     <unitdate>1600 - 1789</unitdate>
                 </did>
                 <c level="file">
                     <did>
-                        <unittitle>1600-1650</unittitle>
-                        <unitdate>1600-1650</unitdate>
+                        <!-- modification: source de distribution depuis /ead/archdesc/dsc/c[1]/c[1]/did/unittitle, comportement 'delete_node' appliqué --><unitdate>1600-1650</unitdate>
                     </did>
                 </c>
                 <c level="file">
                     <did>
-                        <unittitle>1650-1700</unittitle>
-                        <unitdate>1650-1700</unitdate>
+                        <!-- modification: source de distribution depuis /ead/archdesc/dsc/c[1]/c[2]/did/unittitle, comportement 'delete_node' appliqué --><unitdate>1650-1700</unitdate>
                     </did>
                 </c>
                 <c level="file">
                     <did>
-                        <unittitle>1700-1789</unittitle>
-                        <unitdate>1700-1789</unitdate>
+                        <!-- modification: source de distribution depuis /ead/archdesc/dsc/c[1]/c[3]/did/unittitle, comportement 'delete_node' appliqué --><unitdate>1700-1789</unitdate>
                     </did>
                 </c>
             </c>
             <c level="recordgrp">
                 <did>
                     <unittitle>Registres paroissiaux : Baptêmes, mariages, sépultures</unittitle>
-                    <unitdate>1789 - 200</unitdate>
+                    <!-- modification: distribution de 'Baptêmes, mariages, sépultures' vers /ead/archdesc/dsc/c[2]/did/unittitle --><unitdate>1789 - 200</unitdate>
                 </did>
                 <c level="file">
                     <did>
-                        <unittitle>1600-1650</unittitle>
-                        <unitdate>1600-1650</unitdate>
+                        <!-- modification: source de distribution depuis /ead/archdesc/dsc/c[2]/c[1]/did/unittitle, comportement 'delete_node' appliqué --><unitdate>1600-1650</unitdate>
                     </did>
                 </c>
                 <c level="file">
                     <did>
-                        <unittitle>1650-1700</unittitle>
-                        <unitdate>1650-1700</unitdate>
+                        <!-- modification: source de distribution depuis /ead/archdesc/dsc/c[2]/c[2]/did/unittitle, comportement 'delete_node' appliqué --><unitdate>1650-1700</unitdate>
                     </did>
                 </c>
                 <c level="file">
                     <did>
-                        <unittitle>1700-1789</unittitle>
-                        <unitdate>1700-1789</unitdate>
+                        <!-- modification: source de distribution depuis /ead/archdesc/dsc/c[2]/c[3]/did/unittitle, comportement 'delete_node' appliqué --><unitdate>1700-1789</unitdate>
                     </did>
                 </c>
             </c>

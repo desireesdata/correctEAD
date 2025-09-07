@@ -69,19 +69,19 @@ doc = ead.load(io.BytesIO(xml_data.encode('utf-8')))
 output_file = "distribution_corrige.xml"
 
 # 2. On affiche l'état AVANT la modification
-print("--- AVANT TRAITEMENT ---")
 parent_avant = doc.first_node("//c[@level='recordgrp']")
 print(etree.tostring(parent_avant.element, pretty_print=True, encoding='unicode'))
 
 
-# 3. On appelle la fonction avec les bons paramètres
-print("\n--- LANCEMENT DE distribute_repetition() ---")
+# 3. On appelle la fonction avec les bons paramètres, en activant les commentaires
+print("\n--- LANCEMENT DE distribute_repetition() AVEC add_comments=True ---")
 modifs = doc.distribute_repetition(
     parent_selector="//c[@level='recordgrp']",
     child_tag="c",
     target_selector="did/unittitle",
-    child_behavior="replace_by_sibling", # <-- On remplace...
-    sibling_selector="../unitdate"       # <-- ...par le contenu de ce noeud frère.
+    child_behavior="delete_node",  # On supprime les noeuds enfants pour bien voir les commentaires
+    sibling_selector="../unitdate",       # <-- On remplace... (This line is kept to maintain the structure, but its comment is now misleading)
+    add_comments=True               # <-- On active l'ajout de commentaires
 )
 print(f"-> {modifs} parent(s) ont été modifiés.")
 
