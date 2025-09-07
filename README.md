@@ -202,6 +202,24 @@ doc.set("//publicationstmt/date", "Juillet 2026")
 
 > Création automatique : uniquement pour des chemins simples de type `//a/b/c` (pas de prédicats, namespaces complexes, etc.).
 
+### Nettoyage et Transformations Globales
+
+Ces méthodes permettent d'appliquer des transformations sur l'ensemble du document.
+
+```python
+# Supprimer tous les namespaces d'un document.
+# Utile pour simplifier les expressions XPath.
+# <ead:archdesc> devient <archdesc>
+doc.remove_namespaces()
+
+# Supprimer les espaces et sauts de ligne inutiles entre les balises
+# pour "minifier" le XML.
+doc.remove_blank_text()
+
+# L'indentation (pretty-printing) est gérée par la méthode .save()
+doc.save("fichier_propre_et_indente.xml")
+```
+
 ### Distribution d'informations (avancé)
 
 Une fonctionnalité permet d'harmoniser les données en enrichissant un noeud parent avec une information textuelle commune à tous ses enfants. La méthode `distribute_repetition()` est conçue pour ce cas d'usage, typique de la description archivistique (ISAD-G).

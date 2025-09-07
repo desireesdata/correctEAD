@@ -36,6 +36,30 @@ class CorrectEADDocument:
         self._input_encoding = enc_in
         self._output_encoding = "preserve"
 
+    def remove_namespaces(self):
+        """Supprime tous les namespaces de l'ensemble du document.
+
+        Cette opération est irréversible et modifie en place les balises de tous les éléments.
+        Exemple: <ns1:unittitle> devient <unittitle>.
+        """
+        for elem in self.root.iter("*"):
+            if '}' in elem.tag:
+                elem.tag = elem.tag.split('}', 1)[1]
+        # Il faut aussi traiter les attributs qui pourraient être préfixés
+        etree.cleanup_namespaces(self.root)
+
+    def remove_blank_text(self):
+        """Supprime les espaces et sauts de ligne superflus entre les balises.
+        
+        Utilise le parseur lxml pour reconstruire un arbre propre.
+        """
+        parser = etree.XMLParser(remove_blank_text=True)
+        xml_string = etree.tostring(self.root)
+        new_root = etree.fromstring(xml_string, parser)
+        
+        # Il faut remplacer la racine de l'arbre interne
+        self._tree = etree.ElementTree(new_root)
+
     def get_input_encoding(self) -> str:
         return self._input_encoding
 
